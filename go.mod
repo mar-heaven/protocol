@@ -1,4 +1,4 @@
-module github.com/openimsdk/protocol
+module github.com/mar-heaven/protocol
 
 go 1.18
 

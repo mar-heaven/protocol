@@ -22,9 +22,9 @@ package user
 
 import (
 	context "context"
-	conversation "github.com/openimsdk/protocol/conversation"
-	sdkws "github.com/openimsdk/protocol/sdkws"
-	wrapperspb "github.com/openimsdk/protocol/wrapperspb"
+	conversation "github.com/mar-heaven/protocol/conversation"
+	sdkws "github.com/mar-heaven/protocol/sdkws"
+	wrapperspb "github.com/mar-heaven/protocol/wrapperspb"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
