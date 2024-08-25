@@ -153,11 +153,6 @@ func (x *UserRegisterReq) Check() error {
 			return errors.New("userID is legal")
 		}
 	}
-	for _, u := range x.Users {
-		if u.Nickname == "" {
-			return errors.New("user name is empty")
-		}
-	}
 
 	return nil
 }
