@@ -18,8 +18,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/openimsdk/protocol/constant"
-	"github.com/openimsdk/protocol/util/datautil"
+	"github.com/mar-heaven/protocol/constant"
+	"github.com/mar-heaven/protocol/util/datautil"
 )
 
 func (x *GetAllUserIDReq) Check() error {
