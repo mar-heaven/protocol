@@ -33,11 +33,8 @@ func (x *GetPaginationFriendsReq) Check() error {
 }
 
 func (x *ApplyToAddFriendReq) Check() error {
-	if x.ToUserID == "" {
-		return errors.New("toUserID is empty")
-	}
-	if x.FromUserID == "" {
-		return errors.New("fromUserID is empty")
+	if x.UserID == "" {
+		return errors.New("userId is empty")
 	}
 	return nil
 }

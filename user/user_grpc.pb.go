@@ -36,6 +36,7 @@ const (
 	User_GetDesignateUsers_FullMethodName             = "/openim.user.user/getDesignateUsers"
 	User_UpdateUserInfo_FullMethodName                = "/openim.user.user/updateUserInfo"
 	User_UpdateUserInfoEx_FullMethodName              = "/openim.user.user/updateUserInfoEx"
+	User_GetAttributeInfo_FullMethodName              = "/openim.user.user/getAttributeInfo"
 	User_SetGlobalRecvMessageOpt_FullMethodName       = "/openim.user.user/setGlobalRecvMessageOpt"
 	User_GetGlobalRecvMessageOpt_FullMethodName       = "/openim.user.user/getGlobalRecvMessageOpt"
 	User_AccountCheck_FullMethodName                  = "/openim.user.user/accountCheck"
@@ -69,6 +70,7 @@ type UserClient interface {
 	// update user information
 	UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*UpdateUserInfoResp, error)
 	UpdateUserInfoEx(ctx context.Context, in *UpdateUserInfoExReq, opts ...grpc.CallOption) (*UpdateUserInfoExResp, error)
+	GetAttributeInfo(ctx context.Context, in *GetAttributeInfoReq, opts ...grpc.CallOption) (*GetAttributeInfoResp, error)
 	// Set user message receiving options
 	SetGlobalRecvMessageOpt(ctx context.Context, in *SetGlobalRecvMessageOptReq, opts ...grpc.CallOption) (*SetGlobalRecvMessageOptResp, error)
 	// Get the user message receiving option If not found, no error will be returned
@@ -145,6 +147,16 @@ func (c *userClient) UpdateUserInfoEx(ctx context.Context, in *UpdateUserInfoExR
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateUserInfoExResp)
 	err := c.cc.Invoke(ctx, User_UpdateUserInfoEx_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) GetAttributeInfo(ctx context.Context, in *GetAttributeInfoReq, opts ...grpc.CallOption) (*GetAttributeInfoResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetAttributeInfoResp)
+	err := c.cc.Invoke(ctx, User_GetAttributeInfo_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -380,6 +392,7 @@ type UserServer interface {
 	// update user information
 	UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*UpdateUserInfoResp, error)
 	UpdateUserInfoEx(context.Context, *UpdateUserInfoExReq) (*UpdateUserInfoExResp, error)
+	GetAttributeInfo(context.Context, *GetAttributeInfoReq) (*GetAttributeInfoResp, error)
 	// Set user message receiving options
 	SetGlobalRecvMessageOpt(context.Context, *SetGlobalRecvMessageOptReq) (*SetGlobalRecvMessageOptResp, error)
 	// Get the user message receiving option If not found, no error will be returned
@@ -439,6 +452,9 @@ func (UnimplementedUserServer) UpdateUserInfo(context.Context, *UpdateUserInfoRe
 }
 func (UnimplementedUserServer) UpdateUserInfoEx(context.Context, *UpdateUserInfoExReq) (*UpdateUserInfoExResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserInfoEx not implemented")
+}
+func (UnimplementedUserServer) GetAttributeInfo(context.Context, *GetAttributeInfoReq) (*GetAttributeInfoResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAttributeInfo not implemented")
 }
 func (UnimplementedUserServer) SetGlobalRecvMessageOpt(context.Context, *SetGlobalRecvMessageOptReq) (*SetGlobalRecvMessageOptResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetGlobalRecvMessageOpt not implemented")
@@ -576,6 +592,24 @@ func _User_UpdateUserInfoEx_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserServer).UpdateUserInfoEx(ctx, req.(*UpdateUserInfoExReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_GetAttributeInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAttributeInfoReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GetAttributeInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_GetAttributeInfo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GetAttributeInfo(ctx, req.(*GetAttributeInfoReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -994,6 +1028,10 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "updateUserInfoEx",
 			Handler:    _User_UpdateUserInfoEx_Handler,
+		},
+		{
+			MethodName: "getAttributeInfo",
+			Handler:    _User_GetAttributeInfo_Handler,
 		},
 		{
 			MethodName: "setGlobalRecvMessageOpt",
