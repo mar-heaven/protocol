@@ -196,7 +196,9 @@ const (
 	GroupBanPrivateChat = 4
 
 	// group business
-	GroupMaxMemberNumDefault = 15
+	DefaultGroupMaxMemberNum = 15
+	DefaultExpireDays        = 30
+	DefaultIsGreatAccount    = 2
 
 	// UserJoinGroupSource.
 	JoinByAdmin = 1

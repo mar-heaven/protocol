@@ -38,6 +38,10 @@ message GroupInfo{
   int64 notificationUpdateTime = 16;
   string notificationUserID = 17;
   string AppId = 18;
+  int64 expireTime = 19;
+  string bannedReason = 20;
+  int32 maxMemberCount = 21;
+  int32 isGreatAccount = 22;
 }
 
 message GroupInfoForSet{
@@ -50,6 +54,10 @@ message GroupInfoForSet{
   openim.protobuf.Int32Value needVerification = 7;
   openim.protobuf.Int32Value lookMemberInfo = 8;
   openim.protobuf.Int32Value applyMemberFriend = 9;
+  openim.protobuf.Int64Value expireTime = 10;
+  openim.protobuf.StringValue bannedReason = 11;
+  openim.protobuf.Int32Value maxMemberCount = 12;
+  openim.protobuf.Int32Value isGreatAccount = 13;
 }
 
 
