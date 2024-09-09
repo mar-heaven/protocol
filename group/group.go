@@ -42,6 +42,13 @@ func (x *GetGroupsInfoReq) Check() error {
 	return nil
 }
 
+func (x *SearchGroupsInfoReq) Check() error {
+	if x.GroupIDs == nil && x.AppId == "" {
+		return errors.New("GroupIDs and appId is empty")
+	}
+	return nil
+}
+
 func (x *SetGroupInfoReq) Check() error {
 	if x.GroupInfoForSet == nil {
 		return errors.New("GroupInfoForSets is empty")

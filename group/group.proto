@@ -37,6 +37,15 @@ message GetGroupsInfoResp {
   repeated openim.sdkws.GroupInfo groupInfos = 1;
 }
 
+message SearchGroupsInfoReq {
+  repeated string groupIDs = 1;
+  string appId = 2;
+}
+
+message SearchGroupsInfoResp {
+  repeated openim.sdkws.GroupInfo groupInfos = 1;
+}
+
 message SetGroupInfoReq {
   openim.sdkws.GroupInfoForSet groupInfoForSet = 1;
 }
@@ -386,6 +395,7 @@ service group {
   rpc quitGroup(QuitGroupReq) returns (QuitGroupResp);
   //获取指定群信息
   rpc getGroupsInfo(GetGroupsInfoReq) returns (GetGroupsInfoResp);
+  rpc searchGroupsInfo(SearchGroupsInfoReq) returns (SearchGroupsInfoResp);
   //设置群信息
   rpc setGroupInfo(SetGroupInfoReq) returns (SetGroupInfoResp);
   //（以管理员或群主身份）获取群的加群申请

@@ -37,6 +37,7 @@ const (
 	Group_JoinGroup_FullMethodName                       = "/openim.group.group/joinGroup"
 	Group_QuitGroup_FullMethodName                       = "/openim.group.group/quitGroup"
 	Group_GetGroupsInfo_FullMethodName                   = "/openim.group.group/getGroupsInfo"
+	Group_SearchGroupsInfo_FullMethodName                = "/openim.group.group/searchGroupsInfo"
 	Group_SetGroupInfo_FullMethodName                    = "/openim.group.group/setGroupInfo"
 	Group_GetGroupApplicationList_FullMethodName         = "/openim.group.group/getGroupApplicationList"
 	Group_GetUserReqApplicationList_FullMethodName       = "/openim.group.group/getUserReqApplicationList"
@@ -83,6 +84,7 @@ type GroupClient interface {
 	QuitGroup(ctx context.Context, in *QuitGroupReq, opts ...grpc.CallOption) (*QuitGroupResp, error)
 	// 获取指定群信息
 	GetGroupsInfo(ctx context.Context, in *GetGroupsInfoReq, opts ...grpc.CallOption) (*GetGroupsInfoResp, error)
+	SearchGroupsInfo(ctx context.Context, in *SearchGroupsInfoReq, opts ...grpc.CallOption) (*SearchGroupsInfoResp, error)
 	// 设置群信息
 	SetGroupInfo(ctx context.Context, in *SetGroupInfoReq, opts ...grpc.CallOption) (*SetGroupInfoResp, error)
 	// （以管理员或群主身份）获取群的加群申请
@@ -180,6 +182,16 @@ func (c *groupClient) GetGroupsInfo(ctx context.Context, in *GetGroupsInfoReq, o
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetGroupsInfoResp)
 	err := c.cc.Invoke(ctx, Group_GetGroupsInfo_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *groupClient) SearchGroupsInfo(ctx context.Context, in *SearchGroupsInfoReq, opts ...grpc.CallOption) (*SearchGroupsInfoResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SearchGroupsInfoResp)
+	err := c.cc.Invoke(ctx, Group_SearchGroupsInfo_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -518,6 +530,7 @@ type GroupServer interface {
 	QuitGroup(context.Context, *QuitGroupReq) (*QuitGroupResp, error)
 	// 获取指定群信息
 	GetGroupsInfo(context.Context, *GetGroupsInfoReq) (*GetGroupsInfoResp, error)
+	SearchGroupsInfo(context.Context, *SearchGroupsInfoReq) (*SearchGroupsInfoResp, error)
 	// 设置群信息
 	SetGroupInfo(context.Context, *SetGroupInfoReq) (*SetGroupInfoResp, error)
 	// （以管理员或群主身份）获取群的加群申请
@@ -591,6 +604,9 @@ func (UnimplementedGroupServer) QuitGroup(context.Context, *QuitGroupReq) (*Quit
 }
 func (UnimplementedGroupServer) GetGroupsInfo(context.Context, *GetGroupsInfoReq) (*GetGroupsInfoResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetGroupsInfo not implemented")
+}
+func (UnimplementedGroupServer) SearchGroupsInfo(context.Context, *SearchGroupsInfoReq) (*SearchGroupsInfoResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SearchGroupsInfo not implemented")
 }
 func (UnimplementedGroupServer) SetGroupInfo(context.Context, *SetGroupInfoReq) (*SetGroupInfoResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetGroupInfo not implemented")
@@ -776,6 +792,24 @@ func _Group_GetGroupsInfo_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(GroupServer).GetGroupsInfo(ctx, req.(*GetGroupsInfoReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Group_SearchGroupsInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SearchGroupsInfoReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GroupServer).SearchGroupsInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Group_SearchGroupsInfo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GroupServer).SearchGroupsInfo(ctx, req.(*SearchGroupsInfoReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1378,6 +1412,10 @@ var Group_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "getGroupsInfo",
 			Handler:    _Group_GetGroupsInfo_Handler,
+		},
+		{
+			MethodName: "searchGroupsInfo",
+			Handler:    _Group_SearchGroupsInfo_Handler,
 		},
 		{
 			MethodName: "setGroupInfo",
