@@ -35,6 +35,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	User_GetDesignateUsers_FullMethodName             = "/openim.user.user/getDesignateUsers"
 	User_UpdateUserInfo_FullMethodName                = "/openim.user.user/updateUserInfo"
+	User_DeleteUserCache_FullMethodName               = "/openim.user.user/deleteUserCache"
 	User_UpdateUserInfoEx_FullMethodName              = "/openim.user.user/updateUserInfoEx"
 	User_GetAttributeInfo_FullMethodName              = "/openim.user.user/getAttributeInfo"
 	User_SetGlobalRecvMessageOpt_FullMethodName       = "/openim.user.user/setGlobalRecvMessageOpt"
@@ -69,6 +70,7 @@ type UserClient interface {
 	GetDesignateUsers(ctx context.Context, in *GetDesignateUsersReq, opts ...grpc.CallOption) (*GetDesignateUsersResp, error)
 	// update user information
 	UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*UpdateUserInfoResp, error)
+	DeleteUserCache(ctx context.Context, in *DeleteUserCacheReq, opts ...grpc.CallOption) (*DeleteUserCacheResp, error)
 	UpdateUserInfoEx(ctx context.Context, in *UpdateUserInfoExReq, opts ...grpc.CallOption) (*UpdateUserInfoExResp, error)
 	GetAttributeInfo(ctx context.Context, in *GetAttributeInfoReq, opts ...grpc.CallOption) (*GetAttributeInfoResp, error)
 	// Set user message receiving options
@@ -137,6 +139,16 @@ func (c *userClient) UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, 
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateUserInfoResp)
 	err := c.cc.Invoke(ctx, User_UpdateUserInfo_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) DeleteUserCache(ctx context.Context, in *DeleteUserCacheReq, opts ...grpc.CallOption) (*DeleteUserCacheResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteUserCacheResp)
+	err := c.cc.Invoke(ctx, User_DeleteUserCache_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -391,6 +403,7 @@ type UserServer interface {
 	GetDesignateUsers(context.Context, *GetDesignateUsersReq) (*GetDesignateUsersResp, error)
 	// update user information
 	UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*UpdateUserInfoResp, error)
+	DeleteUserCache(context.Context, *DeleteUserCacheReq) (*DeleteUserCacheResp, error)
 	UpdateUserInfoEx(context.Context, *UpdateUserInfoExReq) (*UpdateUserInfoExResp, error)
 	GetAttributeInfo(context.Context, *GetAttributeInfoReq) (*GetAttributeInfoResp, error)
 	// Set user message receiving options
@@ -449,6 +462,9 @@ func (UnimplementedUserServer) GetDesignateUsers(context.Context, *GetDesignateU
 }
 func (UnimplementedUserServer) UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*UpdateUserInfoResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserInfo not implemented")
+}
+func (UnimplementedUserServer) DeleteUserCache(context.Context, *DeleteUserCacheReq) (*DeleteUserCacheResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteUserCache not implemented")
 }
 func (UnimplementedUserServer) UpdateUserInfoEx(context.Context, *UpdateUserInfoExReq) (*UpdateUserInfoExResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserInfoEx not implemented")
@@ -574,6 +590,24 @@ func _User_UpdateUserInfo_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserServer).UpdateUserInfo(ctx, req.(*UpdateUserInfoReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_DeleteUserCache_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteUserCacheReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).DeleteUserCache(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_DeleteUserCache_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).DeleteUserCache(ctx, req.(*DeleteUserCacheReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1024,6 +1058,10 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "updateUserInfo",
 			Handler:    _User_UpdateUserInfo_Handler,
+		},
+		{
+			MethodName: "deleteUserCache",
+			Handler:    _User_DeleteUserCache_Handler,
 		},
 		{
 			MethodName: "updateUserInfoEx",

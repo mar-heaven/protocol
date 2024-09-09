@@ -195,6 +195,9 @@ const (
 	GroupBaned          = 3
 	GroupBanPrivateChat = 4
 
+	// group business
+	GroupMaxMemberNumDefault = 15
+
 	// UserJoinGroupSource.
 	JoinByAdmin = 1
 

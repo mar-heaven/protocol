@@ -53,6 +53,11 @@ message updateUserInfoReq{
 }
 message updateUserInfoResp{
 }
+
+message deleteUserCacheReq{}
+
+message deleteUserCacheResp{}
+
 message updateUserInfoExReq{
   sdkws.UserInfoWithEx userInfo = 1;
 }
@@ -355,6 +360,7 @@ service user {
   rpc getDesignateUsers(getDesignateUsersReq) returns(getDesignateUsersResp);
   //update user information
   rpc updateUserInfo(updateUserInfoReq) returns(updateUserInfoResp);
+  rpc deleteUserCache(deleteUserCacheReq) returns(deleteUserCacheResp);
   rpc updateUserInfoEx(updateUserInfoExReq) returns(updateUserInfoExResp);
   rpc getAttributeInfo(getAttributeInfoReq) returns(getAttributeInfoResp);
   //Set user message receiving options
