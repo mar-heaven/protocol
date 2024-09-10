@@ -42,6 +42,7 @@ message GroupInfo{
   string bannedReason = 20;
   int32 maxMemberCount = 21;
   int32 isGreatAccount = 22;
+  int32 level = 23;
 }
 
 message GroupInfoForSet{
@@ -58,6 +59,8 @@ message GroupInfoForSet{
   openim.protobuf.StringValue bannedReason = 11;
   openim.protobuf.Int32Value maxMemberCount = 12;
   openim.protobuf.Int32Value isGreatAccount = 13;
+  openim.protobuf.StringValue appId = 14;
+  openim.protobuf.Int32Value level = 15;
 }
 
 
