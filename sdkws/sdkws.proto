@@ -20,6 +20,10 @@ option go_package = "github.com/mar-heaven/protocol/sdkws";
 ////////////////////////////////base///////////////////////////////
 
 message GroupInfo{
+  message ExtendInfo{
+    int32 isGreatAccount = 1;
+    int32 level = 2;
+  }
   string groupID = 1;
   string groupName = 2;
   string notification = 3;
@@ -28,7 +32,6 @@ message GroupInfo{
   string ownerUserID = 6;
   int64 createTime = 7;
   uint32 memberCount = 8;
-  string ex = 9;
   int32 status = 10;
   string creatorUserID = 11;
   int32 groupType = 12;
@@ -41,8 +44,7 @@ message GroupInfo{
   int64 expireTime = 19;
   string bannedReason = 20;
   int32 maxMemberCount = 21;
-  int32 isGreatAccount = 22;
-  int32 level = 23;
+  ExtendInfo ex = 22;
 }
 
 message GroupInfoForSet{

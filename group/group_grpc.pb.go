@@ -84,7 +84,6 @@ type GroupClient interface {
 	QuitGroup(ctx context.Context, in *QuitGroupReq, opts ...grpc.CallOption) (*QuitGroupResp, error)
 	// 获取指定群信息
 	GetGroupsInfo(ctx context.Context, in *GetGroupsInfoReq, opts ...grpc.CallOption) (*GetGroupsInfoResp, error)
-	// 搜索群
 	SearchGroupsInfo(ctx context.Context, in *SearchGroupsInfoReq, opts ...grpc.CallOption) (*SearchGroupsInfoResp, error)
 	// 设置群信息
 	SetGroupInfo(ctx context.Context, in *SetGroupInfoReq, opts ...grpc.CallOption) (*SetGroupInfoResp, error)
